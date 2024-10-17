@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2歳児向けインタラクティブページ</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #f0f8ff;
+        }
+        .explosion {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 165, 0, 0.8);
+            animation: explode 0.5s forwards;
+            transform: translate(-50%, -50%);
+        }
+        @keyframes explode {
+            from {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            to {
+                width: 50vh;
+                height: 50vh;
+                opacity: 0;
+            }
+        }
+        .flying-text {
+            position: absolute;
+            font-size: 30vh; /* 文字サイズを5倍に */
+            font-weight: bold;
+            animation: fly 1s forwards;
+        }
+        @keyframes fly {
+            from {
+                transform: scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // マウスのクリックで爆発を発生させる
+        document.addEventListener('click', (e) => {
+            const explosion = document.createElement('div');
+            explosion.className = 'explosion';
+            explosion.style.left = `${e.clientX}px`;
+            explosion.style.top = `${e.clientY}px`;
+            document.body.appendChild(explosion);
+
+            // アニメーションが終わったら削除
+            setTimeout(() => {
+                explosion.remove();
+            }, 500);
+        });
+
+        // キーボード入力で文字を飛び出させる
+        document.addEventListener('keydown', (e) => {
+            const flyingText = document.createElement('div');
+            flyingText.className = 'flying-text';
+            flyingText.textContent = e.key;
+            flyingText.style.left = `${Math.random() * window.innerWidth}px`;
+            flyingText.style.top = `${Math.random() * window.innerHeight}px`;
+            flyingText.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            document.body.appendChild(flyingText);
+
+            // アニメーションが終わったら削除
+            setTimeout(() => {
+                flyingText.remove();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
